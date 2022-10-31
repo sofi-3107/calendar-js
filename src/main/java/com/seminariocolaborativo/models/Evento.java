@@ -2,6 +2,7 @@ package com.seminariocolaborativo.models;
 
 import java.sql.Date;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -25,15 +26,18 @@ public class Evento {
 	@Column(length=20)
 	String autor;
 	
-	@Column (length=100)
-	String evento;
+	@Column (length=20)
+	String title;
 	
-	@Column(name="fecha_inicio", columnDefinition="DATE")
+	@Column(length=100)
+	String description;
 	
-	LocalDate fechaInicio;
+	@Column(name="fecha_inicio", columnDefinition="DATETIME")
 	
-	@Column(name="fecha_fin", columnDefinition="DATE")
-	LocalDate fechaFin;
+	LocalDateTime start;
+	
+	@Column(name="fecha_fin", columnDefinition="DATETIME")
+	LocalDateTime end;
 	
 	@Column(length=25)
 	String color;
