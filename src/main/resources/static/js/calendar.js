@@ -2,16 +2,46 @@ $(function() {
 	
 	
 	
-	var calendarEl = document.getElementById('calendar');
-	var addEvent=(data)=>console.log(data.dateStr)
 	
-	var eventos=[{title:'TP 4 Seminario Colaborativo by: Sofi',start:'2022-10-30',end:'2022-11-14',color:'purple'}];
+	
+	var fechaInicio=$('#fechaInicio');
+	var fechaFin=$('#fechaFin');
+	var autor=$('#autor');
+	var color=$('#color');
+	var calendarEl = document.getElementById('calendar');
+	var eventos=[{extendedProps:{autor:'Sofi'},title:'TP 4 Seminario Colaborativo',start:'2022-10-30',end:'2022-11-14',color:'purple'}];
 	const addModal=$("#addEventModal");
+	
+	var addEvent=(data)=>{
+		addModal.show();
+		fechaInicio.val(data.dateStr);
+		var evento={
+			title:$('#titulo').val(),
+			description:$('#descripcion').val(),
+			start:data.dateStr,
+			end:fechaFin.val(),
+			extendedProps:{
+				autor:autor.val(),
+			},
+			
+			color:color.val()
+		}
+		console.log(evento);
+		
+		$('#addToList').click(()=>{
+			eventos.push(evento);
+			//console.log(eventos.length);
+		});
+		
+	};
+	
+	
+	
 	const closeModalButton=$("#closeModal");
 	closeModalButton.click(()=>addModal.hide());
-	addModal.click(()=>console.log('Holis'));
+	console.log(eventos.length);
 	
-	var example=(data)=>addModal.show();
+	
 	
 	
 	
@@ -19,15 +49,17 @@ $(function() {
 		themeSystem:'Pulse',
 		initialView: 'dayGridMonth',
 		locale:'es',
+		editable:true,
 		headerToolbar:{
 			right:'prev, next, today',
 			center:'title',
 			left:'timeGridDay,timeGridWeek,dayGridMonth',
 			
 		},
+		selectHelper:true,
 		events:eventos,
 		dateClick:addEvent,
-		eventClick:example
+		eventClick:(data)=>{alert('autor: '+data.event.extendedProps.autor)}
 		
 	});
 	
