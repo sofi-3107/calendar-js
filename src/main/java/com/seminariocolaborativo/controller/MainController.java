@@ -16,6 +16,8 @@ import com.seminariocolaborativo.repository.EventoRepository;
 @Controller	
 public class MainController {
 	
+	@Autowired
+	EventoRepository evRep;
 
 	
 	@GetMapping("/")
@@ -27,9 +29,10 @@ public class MainController {
 
 	
 	@PostMapping("/save-evento")
-	public String crearEvento(@ModelAttribute("evento")Evento evento,RedirectAttributes redAttr) {
-		
-		return null;
+	public String crearEvento(@ModelAttribute Evento evento,RedirectAttributes redAttr) {
+		 System.out.println("alcance el controlador");
+		 evRep.save(evento);
+		return "redirect:/";
 	}
 	
 
