@@ -38,8 +38,9 @@ $(function() {
 					url:'http://localhost:8000/all',
 					method:'GET',
 					failure:(f)=>alert('failed fetching data'+f)},
+				
 				dateClick: addEvent,
-				eventClick: (data) => { alert('autor: ' + data.event.extendedProps.autor) }
+				eventClick: (data) => { alert('autor: ' + data.event.extendedProps.autor+' description: '+data.event.description) }
 
 			}
 			);

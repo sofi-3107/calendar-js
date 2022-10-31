@@ -32,11 +32,11 @@ public class Evento {
 	@Column(length=100)
 	String description;
 	
-	@Column(name="fecha_inicio", columnDefinition="DATETIME")
+	@Column(name="start", columnDefinition="DATETIME")
 	
 	LocalDateTime start;
 	
-	@Column(name="fecha_fin", columnDefinition="DATETIME")
+	@Column(name="end", columnDefinition="DATETIME")
 	LocalDateTime end;
 	
 	@Column(length=25)
