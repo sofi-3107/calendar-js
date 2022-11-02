@@ -2,7 +2,7 @@ $(function() {
 
 	var eventos = [];
 
-	
+
 
 
 
@@ -12,30 +12,50 @@ $(function() {
 	var fechaFin = $('#fechaFin');
 	var autor = $('#autor');
 	var color = $('#color');
+	var title=$('#title');
+	var description=$('#description');
+
 	var calendarEl = document.getElementById('calendar');
 	//var eventos = [{ extendedProps: { autor: 'Sofi' }, title: 'TP 4 Seminario Colaborativo', start: '2022-10-30', end: '2022-11-14', color: 'purple' }];
-	const addModal = $("#addEventModal");
+	var addModal = $("#addEventModal");
 
 	var addEvent = (data) => {
 		addModal.show();
 		fechaInicio.val(data.dateStr);
+		
 		var evento = {
-			title: $('#titulo').val(),
-			description: $('#descripcion').val(),
-			start: data.dateStr,
-			end: fechaFin.val(),
-			extendedProps: {
-				autor: autor.val(),
-			},
+			title:title.val(),
+			description: description.val(),
+			start: data.date,
+			end: new Date(fechaFin.val()),
+			autor: autor.val(),
+			color:color.val()
+		};
 
-			color: color.val()
-		}
-		console.log(evento);
+		/**http request */
+		$('form').submit((e) => {
+			e.preventDefault();
 
-		$('#addToList').click(() => {
-			eventos.push(evento);
-			//console.log(eventos.length);
+			$.ajax({
+				url: 'http://localhost:8000/saveEvento',
+				data: JSON.stringify(evento),
+				dataType: 'json',
+				contentType: "application/json",
+				encode: true,
+				type: 'post',
+				success: (resp) => alert(resp),
+				error: (e) => console.log(e)
+			});
+			//location.reload();
+			title.val('') ;
+			description.val('') ;
+			fechaInicio.val('') ;
+			fechaFin.val('') ;
+			autor.val('');
+			addModal.hide();
 		});
+
+
 
 	};
 
@@ -43,9 +63,13 @@ $(function() {
 
 	const closeModalButton = $("#closeModal");
 	closeModalButton.click(() => addModal.hide());
-	console.log(eventos.length);
 
-var calendar = new FullCalendar.Calendar(calendarEl, {
+
+
+
+
+	/**CALENDARIO */
+	var calendar = new FullCalendar.Calendar(calendarEl, {
 		themeSystem: 'Pulse',
 		initialView: 'dayGridMonth',
 		locale: 'es',
@@ -59,7 +83,8 @@ var calendar = new FullCalendar.Calendar(calendarEl, {
 		eventSources: {
 			url: 'http://localhost:8000/all',
 			method: 'GET',
-			failure: (f) => alert('failed fetching data' + f)
+			color: 'purple',
+			error: (f) => alert('failed fetching data' + f)
 		},
 
 		dateClick: addEvent,

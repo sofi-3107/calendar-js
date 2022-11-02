@@ -36,28 +36,41 @@
 						click="closeModal()"></button>
 				</div>
 				<div class="modal-body">
-					<form action="#" th-object="${evento}" th-action="@{/save-evento}">
-						<div class="form-group">
-							<label for="fechaInicio">Fecha Inicio</label>
+					<form  action="#">
+						<fieldset>
+							<div class="form-group">
+								<label for="title">Titulo</label>
+								<input name="title" id="title" class="form-control my-3"
+									placeholder="Titulo del evento">
+							</div>
+							<div class="form-group">
+							
+								<label for="fechaInicio">Fecha Inicio</label>
 
-							<input th-field="*{start}" id="fechaInicio" type="date" disabled="true"
-								class="form-control my-3" placeholder="Titulo del evento">
-							<label for="fechaFin">Fecha Fin</label>
-							<input th-field="*{end}" id="fechaFin" type="date" class="form-control my-3"
-								placeholder="Titulo del evento">
-							<input th-field="*{title}" id="titulo" class="form-control my-3"
-								placeholder="Titulo del evento">
-							<input th-field="*{description}" id="descripcion" class="form-control"
-								placeholder="descipcion">
-							<input th-field="*{autor}" id="autor" class="form-control my-3	" placeholder="autor">
-							<input th-field="*{color}" id="color" type="color" class="form-control "
-								placeholder="Titulo del evento">
-						</div>
+								<input name="start" id="fechaInicio" type="date" disabled="true"
+									class="form-control my-3" >
+							</div>
+							<div class="form-group">
+								<label for="fechaFin">Fecha Fin</label>
+								<input name="end" id="fechaFin" type="date" class="form-control my-3">
+								<label for="description">Descripcion</label>
+								<input name="description" id="description" type="text" class="form-control"
+									>
+								<label for="autor">Autor</label>
+								<input name="autor" id="autor" class="form-control my-3" type="text"
+									>
+
+							</div>
+							<label for="color">Elija un color</label>
+							<input class="mx-2" type="color" id="color" name="color">
+							
+
 
 				</div>
 				<div class="modal-footer">
 					<button type="submit" id="addToList" class="btn btn-primary">Agendar Evento</button>
 				</div>
+				</fieldset>
 				</form>
 			</div>
 		</div>
