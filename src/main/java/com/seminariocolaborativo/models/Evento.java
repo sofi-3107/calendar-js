@@ -20,7 +20,6 @@ public class Evento {
 	
 	
 	@Id @GeneratedValue
-	
 	Integer id;
 	
 	@Column(length=20)
@@ -32,8 +31,7 @@ public class Evento {
 	@Column(length=100)
 	String description;
 	
-	@Column(name="start", columnDefinition="DATETIME")
-	
+	@Column(name="start", columnDefinition="DATETIME")	
 	LocalDateTime start;
 	
 	@Column(name="end", columnDefinition="DATETIME")
@@ -41,5 +39,61 @@ public class Evento {
 	
 	@Column(length=25)
 	String color;
+
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+	public String getAutor() {
+		return autor;
+	}
+
+	public void setAutor(String autor) {
+		this.autor = autor;
+	}
+
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	public LocalDateTime getStart() {
+		return start;
+	}
+
+	public void setStart(LocalDateTime start) {
+		this.start = start;
+	}
+
+	public LocalDateTime getEnd() {
+		return end;
+	}
+
+	public void setEnd(LocalDateTime end) {
+		this.end = end;
+	}
+
+	public String getColor() {
+		return color;
+	}
+
+	public void setColor(String color) {
+		this.color = color;
+	}
 	
 }

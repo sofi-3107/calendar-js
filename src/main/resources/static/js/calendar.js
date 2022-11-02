@@ -14,6 +14,8 @@ $(function() {
 	var color = $('#color');
 	var title=$('#title');
 	var description=$('#description');
+	
+	fechaFin.attr('max', Date.now());
 
 	var calendarEl = document.getElementById('calendar');
 	//var eventos = [{ extendedProps: { autor: 'Sofi' }, title: 'TP 4 Seminario Colaborativo', start: '2022-10-30', end: '2022-11-14', color: 'purple' }];
@@ -22,14 +24,14 @@ $(function() {
 	var addEvent = (data) => {
 		addModal.show();
 		fechaInicio.val(data.dateStr);
-		
-		var evento = {
+		console.log('description: '+description.val())
+		var evento = {	
 			title:title.val(),
 			description: description.val(),
 			start: data.date,
 			end: new Date(fechaFin.val()),
 			autor: autor.val(),
-			color:color.val()
+			color:color.val().toString()
 		};
 
 		/**http request */
@@ -43,16 +45,17 @@ $(function() {
 				contentType: "application/json",
 				encode: true,
 				type: 'post',
-				success: (resp) => alert(resp),
+				success: (resp) => console.log(resp),
 				error: (e) => console.log(e)
 			});
-			//location.reload();
+			
 			title.val('') ;
 			description.val('') ;
 			fechaInicio.val('') ;
 			fechaFin.val('') ;
 			autor.val('');
 			addModal.hide();
+			location.reload();
 		});
 
 
@@ -80,12 +83,12 @@ $(function() {
 			left: 'timeGridDay,timeGridWeek,dayGridMonth',
 
 		},
-		eventSources: {
+		events:'http://localhost:8000/all',
+		/*eventSources: {
 			url: 'http://localhost:8000/all',
 			method: 'GET',
-			color: 'purple',
 			error: (f) => alert('failed fetching data' + f)
-		},
+		},*/
 
 		dateClick: addEvent,
 		eventClick: (data) => { alert('autor: ' + data.event.extendedProps.autor + ' description: ' + data.event.description) }
