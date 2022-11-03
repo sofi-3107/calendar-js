@@ -3,7 +3,22 @@
 	}
 	
 	input:required{
-		border: 3px solid rgb(0, 128, 0);
+		border: 3px solid #a84aa4;
+	}
+	
+	body{
+		background-color:#bfa6c3
+	}
+	
+	#calendar{
+		padding:5%;
+		background-color:#f0e1ef;
+	}
+	
+
+	.modal-header, #addToList{
+		color:white;
+		background-color:#a84aa4;
 	}
 	
 	
