@@ -31,9 +31,8 @@
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header">
-					<h5 id="modal-title"class="modal-title text-center">Nuevo Evento</h5>
-					<button id="closeModal" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
-						click="closeModal()"></button>
+					<h5 class="modal-title text-center">Nuevo Evento</h5>
+					<button id="closeModal" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"click="closeModal()"></button>
 				</div>
 				<div class="modal-body">
 					<form action="#">
@@ -57,9 +56,6 @@
 							</div>
 							<label for="color">Elija un color</label>
 							<input value="#be2596" class="mx-2" type="color" id="color" name="color">
-
-
-
 				</div>
 				<div class="modal-footer">
 					<button type="submit" id="addToList" class="btn btn-primary">Agendar Evento</button>
@@ -73,10 +69,20 @@
 	
 	/*MODAL ELIMINAR*/
 	
-	<div class="modal">
+	<div class="modal" id="deleteModal">
 		<div class="modal-dialog">
 			<div class="modal-content">
-				
+				<div class="modal-header">
+					<h5 class="modal-title text-center">Borrar Evento</h5>
+					
+				</div>
+				<div class="modal-body p-2">
+					<p>Esta seguro de querer eliminar este evento?</p>
+				</div>
+				<div class="modal-footer">
+					<button  id="delete" class="btn btn-primary">Borrar Evento</button>
+					<button  id="cancelar" class="btn btn-primary">Cancelar</button>
+				</div>
 			</div>
 		</div>
 	</div>	

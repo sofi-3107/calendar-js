@@ -8,37 +8,63 @@ $(function() {
 
 
 
-
+	var calendarEl = document.getElementById('calendar');
 	var fechaInicio = $('#fechaInicio');
 	var fechaFin = $('#fechaFin');
 	var autor = $('#autor');
 	var color = $('#color');
 	var title = $('#title');
 	var description = $('#description');
+	const addModal = $("#addEventModal");
+	const deleteModal = $('#deleteModal');
+	const cancelar = $('#cancelar');
+	const deleteButton = $('#delete');
+	const closeModalButton = $("#closeModal");
+	
+	/**borrar evento */
+
+
+
 
 	fechaFin.attr('max', Date.now());
+	
 
-	var calendarEl = document.getElementById('calendar');
-	//var eventos = [{ extendedProps: { autor: 'Sofi' }, title: 'TP 4 Seminario Colaborativo', start: '2022-10-30', end: '2022-11-14', color: 'purple' }];
-	var addModal = $("#addEventModal");
-
+	var deleteEvent = (info) => {
+		deleteModal.show();
+		console.log(info);
+		deleteButton.click(() => {
+			$.ajax({
+				url: hostUrl + 'deleteEvento/'+info.event.id,
+				type: 'delete',
+				dataType: 'json',
+				contentType: "application/json",
+				encode: true,
+				error: (e) => console.log(e)
+			});
+				console.log('done')
+				let event=calendar.getEventById( info.event.id );
+				event.remove();
+				alert('Evento borrado correctamenre');
+				//location.reload();
+				deleteModal.hide()
+				
+			
+		});
+		cancelar.click(() => deleteModal.hide());
+	}
 	var addEvent = (data) => {
-
 		addModal.show();
 		fechaInicio.val(data.dateStr);
-
-
-
 		/**http request */
 		$('form').submit((e) => {
 			e.preventDefault();
 			let evento = {
 				title: title.val(),
-				description: description.val()||'',
+				description: description.val() || '',
 				start: data.date,
-				end: new Date(fechaFin.val())|| new Date(data.dateStr),
-				autor: autor.val()|| 'anonimo',
-				color: color.val().toString()||'#a84aa4'
+				end: new Date(fechaFin.val()) || new Date(data.dateStr),
+				autor: autor.val() || 'anonimo',
+				color: color.val().toString() || '#a84aa4'
 			};
 			$.ajax({
 				url: hostUrl + 'saveEvento',
@@ -67,7 +93,8 @@ $(function() {
 
 
 
-	const closeModalButton = $("#closeModal");
+
+
 	closeModalButton.click(() => {
 		addModal.hide();
 		title.val('');
@@ -75,7 +102,7 @@ $(function() {
 		fechaInicio.val('');
 		fechaFin.val('');
 		autor.val('');
-		addModal.hide();
+		deleteModal.hide();
 		calendar.refetchEvents();
 	});
 
@@ -103,7 +130,8 @@ $(function() {
 		},
 
 		dateClick: addEvent,
-		eventClick: (data) => { alert('autor: ' + data.event.extendedProps.autor + ' description: ' + data.event.extendedProps.description) }
+		eventClick: deleteEvent
+		
 
 	}
 	);
