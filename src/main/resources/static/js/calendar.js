@@ -1,8 +1,9 @@
 $(function() {
+	const hostUrl = window.location;
+
 
 	var eventos = [];
-
-
+	var calendar
 
 
 
@@ -12,9 +13,9 @@ $(function() {
 	var fechaFin = $('#fechaFin');
 	var autor = $('#autor');
 	var color = $('#color');
-	var title=$('#title');
-	var description=$('#description');
-	
+	var title = $('#title');
+	var description = $('#description');
+
 	fechaFin.attr('max', Date.now());
 
 	var calendarEl = document.getElementById('calendar');
@@ -22,24 +23,25 @@ $(function() {
 	var addModal = $("#addEventModal");
 
 	var addEvent = (data) => {
+
 		addModal.show();
 		fechaInicio.val(data.dateStr);
-		console.log('description: '+description.val())
-		var evento = {	
-			title:title.val(),
-			description: description.val(),
-			start: data.date,
-			end: new Date(fechaFin.val()),
-			autor: autor.val(),
-			color:color.val().toString()
-		};
+
+
 
 		/**http request */
 		$('form').submit((e) => {
 			e.preventDefault();
-
+			let evento = {
+				title: title.val(),
+				description: description.val()||'',
+				start: data.date,
+				end: new Date(fechaFin.val())|| new Date(data.dateStr),
+				autor: autor.val()|| 'anonimo',
+				color: color.val().toString()||'#a84aa4'
+			};
 			$.ajax({
-				url: 'http://localhost:8000/saveEvento',
+				url: hostUrl + 'saveEvento',
 				data: JSON.stringify(evento),
 				dataType: 'json',
 				contentType: "application/json",
@@ -48,13 +50,14 @@ $(function() {
 				success: (resp) => console.log(resp),
 				error: (e) => console.log(e)
 			});
-			
-			title.val('') ;
-			description.val('') ;
-			fechaInicio.val('') ;
-			fechaFin.val('') ;
+
+			title.val('');
+			description.val('');
+			fechaInicio.val('');
+			fechaFin.val('');
 			autor.val('');
 			addModal.hide();
+			//calendar.getEventSources()[0].refetch();
 			location.reload();
 		});
 
@@ -65,14 +68,24 @@ $(function() {
 
 
 	const closeModalButton = $("#closeModal");
-	closeModalButton.click(() => addModal.hide());
+	closeModalButton.click(() => {
+		addModal.hide();
+		title.val('');
+		description.val('');
+		fechaInicio.val('');
+		fechaFin.val('');
+		autor.val('');
+		addModal.hide();
+		calendar.refetchEvents();
+	});
+
 
 
 
 
 
 	/**CALENDARIO */
-	var calendar = new FullCalendar.Calendar(calendarEl, {
+	calendar = new FullCalendar.Calendar(calendarEl, {
 		themeSystem: 'Pulse',
 		initialView: 'dayGridMonth',
 		locale: 'es',
@@ -83,21 +96,19 @@ $(function() {
 			left: 'timeGridDay,timeGridWeek,dayGridMonth',
 
 		},
-		events:'http://localhost:8000/all',
-		/*eventSources: {
-			url: 'http://localhost:8000/all',
+		eventSources: {
+			url: hostUrl + 'all',
 			method: 'GET',
 			error: (f) => alert('failed fetching data' + f)
-		},*/
+		},
 
 		dateClick: addEvent,
-		eventClick: (data) => { alert('autor: ' + data.event.extendedProps.autor + ' description: ' + data.event.description) }
+		eventClick: (data) => { alert('autor: ' + data.event.extendedProps.autor + ' description: ' + data.event.extendedProps.description) }
 
 	}
 	);
 
 	calendar.render();
-
 
 
 
