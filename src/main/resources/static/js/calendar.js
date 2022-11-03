@@ -20,35 +20,36 @@ $(function() {
 	const cancelar = $('#cancelar');
 	const deleteButton = $('#delete');
 	const closeModalButton = $("#closeModal");
-	
+
 	/**borrar evento */
 
 
 
 
 	fechaFin.attr('max', Date.now());
-	
+
 
 	var deleteEvent = (info) => {
 		deleteModal.show();
 		console.log(info);
 		deleteButton.click(() => {
+			let event = 0;
+			event = calendar.getEventById(info.event.id);
 			$.ajax({
-				url: hostUrl + 'deleteEvento/'+info.event.id,
+				url: hostUrl + 'deleteEvento/' + info.event.id,
 				type: 'delete',
 				dataType: 'json',
 				contentType: "application/json",
 				encode: true,
 				error: (e) => console.log(e)
 			});
-				console.log('done')
-				let event=calendar.getEventById( info.event.id );
-				event.remove();
-				alert('Evento borrado correctamenre');
-				//location.reload();
-				deleteModal.hide()
-				
-			
+
+			event.remove();
+			alert('Evento borrado correctamenre');
+			deleteModal.hide();
+			location.reload();
+
+
 		});
 		cancelar.click(() => deleteModal.hide());
 	}
@@ -73,18 +74,25 @@ $(function() {
 				contentType: "application/json",
 				encode: true,
 				type: 'post',
-				success: (resp) => console.log(resp),
-				error: (e) => console.log(e)
-			});
+				success: (resp) => console.log('success'),
 
-			title.val('');
-			description.val('');
-			fechaInicio.val('');
-			fechaFin.val('');
-			autor.val('');
-			addModal.hide();
-			//calendar.getEventSources()[0].refetch();
-			location.reload();
+			});
+				console.log('done add')
+				title.val('');
+				description.val('');
+				fechaInicio.val('');
+				fechaFin.val('');
+				autor.val('');
+				addModal.hide();
+				location.reload();
+				//let source=calendar.getEventSources()[0];
+				//calendar.addEvent(evento,source); 
+
+
+
+
+
+
 		});
 
 
@@ -131,7 +139,7 @@ $(function() {
 
 		dateClick: addEvent,
 		eventClick: deleteEvent
-		
+
 
 	}
 	);
