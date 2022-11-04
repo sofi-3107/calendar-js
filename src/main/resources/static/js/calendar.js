@@ -2,7 +2,7 @@ $(function() {
 	const hostUrl = window.location;
 
 
-	var eventos = [];
+	
 	var calendar
 
 
@@ -15,6 +15,7 @@ $(function() {
 	var color = $('#color');
 	var title = $('#title');
 	var description = $('#description');
+	const formInputs = [fechaInicio,fechaFin,autor,title,description];
 	const addModal = $("#addEventModal");
 	const deleteModal = $('#deleteModal');
 	const cancelar = $('#cancelar');
@@ -77,22 +78,10 @@ $(function() {
 				success: (resp) => console.log('success'),
 
 			});
-				console.log('done add')
-				title.val('');
-				description.val('');
-				fechaInicio.val('');
-				fechaFin.val('');
-				autor.val('');
+				
+				formInputs.forEach(i=>i.val(''));
 				addModal.hide();
 				location.reload();
-				//let source=calendar.getEventSources()[0];
-				//calendar.addEvent(evento,source); 
-
-
-
-
-
-
 		});
 
 
@@ -105,11 +94,7 @@ $(function() {
 
 	closeModalButton.click(() => {
 		addModal.hide();
-		title.val('');
-		description.val('');
-		fechaInicio.val('');
-		fechaFin.val('');
-		autor.val('');
+		formInputs.forEach(i=>i.val(''));
 		deleteModal.hide();
 		calendar.refetchEvents();
 	});
