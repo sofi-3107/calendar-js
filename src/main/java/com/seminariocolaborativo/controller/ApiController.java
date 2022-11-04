@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -27,14 +28,10 @@ public class ApiController {
 	}
 	
 	@PostMapping("/saveEvento")
-	public ResponseEntity saveEvento(@RequestBody Evento evento) {
-		//System.out.println(evento.toString());
-		if(evento.getTitle()!=null) {
-			evRep.save(evento);
-			return ResponseEntity.ok("guardado correctamente");
-		}else {
-			return (ResponseEntity) ResponseEntity.status(HttpStatus.BAD_REQUEST);
-		}		
+	public ResponseEntity<String> saveEvento(@RequestBody Evento evento) {
+		System.out.println(evento.getEnd());
+		evRep.save(evento);
+		return ResponseEntity.ok("guardado correctamente");
 	}
 	
 	
@@ -43,5 +40,19 @@ public class ApiController {
 		Evento e=evRep.findById(id).get();
 		evRep.delete(e);
 		return  ResponseEntity.ok("eliminado correctamente");
+	}
+	
+	
+	@PutMapping("/update")
+	public Evento updateEvento(@RequestBody Evento evento) {
+		System.out.println("update: "+ evento.getTitle());
+		Evento e =evRep.findById(evento.getId()).get();
+		e.setAutor(evento.getAutor());
+		e.setDescription(evento.getDescription());
+		e.setStart(evento.getStart());
+		e.setEnd(evento.getEnd());
+		e.setTitle(evento.getTitle());
+		
+		return evRep.save(e);
 	}
 }
