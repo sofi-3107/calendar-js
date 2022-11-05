@@ -58,16 +58,14 @@ $(function() {
 				encode: true,
 				error: (e) => console.log(e)
 			});
-
-			event.remove();
 			alert('Evento borrado correctamenre');
+			calendar.getEventSources()[0].refetch();
 			deleteModal.hide();
-			location.reload();
 		});
 
 		cancelar.click(() => deleteModal.hide());
 		changeButton.click(() => {
-			
+
 			let changedEvent = {
 				id: info.event.id,
 				start: new Date(inicio.val()) || info.event.start,
@@ -90,7 +88,7 @@ $(function() {
 			}).done(() => {
 				deleteInputs.forEach(i => i.val(''));
 				deleteModal.hide();
-				location.reload();
+				calendar.getEventSources()[0].refetch();
 			});
 
 		});
@@ -122,10 +120,12 @@ $(function() {
 				error: (e) => console.log(e),
 
 			});
-
-			formInputs.forEach(i => i.val(''));
+			
 			addModal.hide();
-			location.reload();
+			formInputs.forEach(i => i.val(''));
+			calendar.getEventSources()[0].refetch()|| location.reload();
+			
+
 		});
 
 
