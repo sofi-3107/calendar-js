@@ -56,11 +56,15 @@ $(function() {
 				dataType: 'json',
 				contentType: "application/json",
 				encode: true,
-				error: (e) => console.log(e)
+				error: (e) => console.log(e),
+				complete: (jqXHR,error) => {
+					console.log(jqXHR.status);
+					//alert('Evento borrado correctamenre');
+					calendar.getEventSources()[0].refetch();
+					deleteModal.hide();
+				}
 			});
-			alert('Evento borrado correctamenre');
-			calendar.getEventSources()[0].refetch();
-			deleteModal.hide();
+
 		});
 
 		cancelar.click(() => deleteModal.hide());
@@ -84,11 +88,11 @@ $(function() {
 				encode: true,
 				error: (e) => console.log(e),
 				type: 'put',
-
-			}).done(() => {
-				deleteInputs.forEach(i => i.val(''));
-				deleteModal.hide();
-				calendar.getEventSources()[0].refetch();
+				complete: () => {
+					deleteInputs.forEach(i => i.val(''));
+					deleteModal.hide();
+					calendar.getEventSources()[0].refetch();
+				}
 			});
 
 		});
@@ -117,14 +121,20 @@ $(function() {
 				contentType: "application/json",
 				encode: true,
 				type: 'post',
-				error: (e) => console.log(e),
+				success: (resp) => console.log(resp),
+				error: (jqXHR, status, error) => console.log(error),
+				complete: (jqXHR, status) => {
+					console.log('Estado en complete: ');
+					console.log(jqXHR.status);					
+					addModal.hide();
+					formInputs.forEach(i => i.val(''));
+					calendar.getEventSources()[0].refetch();
+				}
 
 			});
-			
-			addModal.hide();
-			formInputs.forEach(i => i.val(''));
-			calendar.getEventSources()[0].refetch()|| location.reload();
-			
+
+
+
 
 		});
 

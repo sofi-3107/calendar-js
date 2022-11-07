@@ -29,7 +29,9 @@ public class ApiController {
 	
 	@PostMapping("/saveEvento")
 	public ResponseEntity<String> saveEvento(@RequestBody Evento evento) {
-		System.out.println(evento.getEnd());
+		if(evento.getStart()==null || evento.getTitle()=="") {
+			return new ResponseEntity("No existe titulo o fecha de inicio",HttpStatus.BAD_REQUEST);
+		}
 		evRep.save(evento);
 		return ResponseEntity.ok("guardado correctamente");
 	}
