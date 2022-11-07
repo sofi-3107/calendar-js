@@ -91,7 +91,8 @@ $(function() {
 				complete: () => {
 					deleteInputs.forEach(i => i.val(''));
 					deleteModal.hide();
-					calendar.getEventSources()[0].refetch();
+					location.reload()
+					//calendar.getEventSources()[0].refetch();
 				}
 			});
 
@@ -128,7 +129,8 @@ $(function() {
 					console.log(jqXHR.status);					
 					addModal.hide();
 					formInputs.forEach(i => i.val(''));
-					calendar.getEventSources()[0].refetch();
+					//calendar.getEventSources()[0].refetch();
+					location.reload()
 				}
 
 			});
